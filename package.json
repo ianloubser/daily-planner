@@ -1,0 +1,14 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "hrs -p 8080"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "simple-hot-reload-server": "^1.2.0"
+  }
+}

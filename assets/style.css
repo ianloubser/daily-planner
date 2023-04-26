@@ -1,0 +1,44 @@
+body {
+    font-family: sans-serif;
+}
+
+.todo-row {
+    padding: 7px 0;
+    justify-content: space-between;
+    display: flex;
+}
+
+.todo-row:hover {
+    background-color: #f1f1f1;
+}
+
+button {
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+.app {
+    margin: 0 auto;
+}
+
+@media(min-width: 480px) {
+    .app {
+        margin: 0 auto;
+        width: 90%;
+    }
+}
+
+@media(min-width: 640px) {
+    .app {
+        margin: 0 auto;
+        width: 80%;
+    }
+}
+
+@media(min-width: 1280px) {
+    .app {
+        margin: 0 auto;
+        width: 50%;
+    }
+}
+
