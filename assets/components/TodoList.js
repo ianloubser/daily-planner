@@ -1,5 +1,5 @@
 import hot from 'hot'
-import { TodoItem } from 'components'
+import { TodoItem, OverdueControl } from 'components'
 
 const ListOrEmpty = (items) => (
     !items || !items.length ? (
@@ -12,6 +12,19 @@ const ListOrEmpty = (items) => (
     ) : (
         [...items.map(TodoItem)]
     )
+)
+
+const TodayGroup = () => (
+    hot.div({
+        style: {
+            display: 'flex',
+            justifyContent: 'space-between'
+        },
+        child: [
+            hot.h4('Today'),
+            OverdueControl
+        ]
+    })
 )
 
 export const TodoList = () => {
@@ -35,7 +48,7 @@ export const TodoList = () => {
             const groups = grouped()
 
             return [
-                hot.h4('Today'),
+                TodayGroup,
                 ListOrEmpty(groups[0]),
                 hot.h4('Yesterday'),
                 ListOrEmpty(groups[1])

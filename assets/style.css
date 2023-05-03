@@ -12,6 +12,18 @@ body {
     background-color: #f1f1f1;
 }
 
+.todo-delete {
+    margin-left: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    border: none;
+    padding: 5px 10px;
+}
+
+.todo-delete:hover {
+    background-color: darkgray;
+}
+
 button {
     cursor: pointer;
     text-transform: capitalize;

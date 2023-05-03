@@ -3,6 +3,7 @@ import { TodoList, CreateTodo, Header } from 'components'
 import { tasks } from 'commons'
 
 window._state.todos = []
+window._state.maxOverdue = localStorage.getItem('max_overdue') || 5
 
 tasks.subscribe((tasks) => {
     window._state.todos = tasks

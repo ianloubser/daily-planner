@@ -10,6 +10,7 @@ export const tasks = {
     add: async (value) => {
         try {
             await addDoc(collection(db, "user", auth.currentUser.uid, "tasks"), {
+                done: false,
                 text: value,
                 created: new Date().getTime()
             });
@@ -29,7 +30,7 @@ export const tasks = {
     subscribe: (cb) => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                onSnapshot(collection(db, "user", auth.currentUser.uid, "tasks"), (snapshot) => {
+                onSnapshot(collection(db, "user", user.uid, "tasks"), (snapshot) => {
                     const allDocs = snapshot.docs.map(d => ({...d.data(), id: d.id}))
                     allDocs.sort((a, b) => b.created - a.created)
                     cb(allDocs)
