@@ -1,5 +1,6 @@
 import hot from 'hot'
 import { TodoItem, OverdueControl } from 'components'
+import { getDateMidnight } from 'commons'
 
 const ListOrEmpty = (items) => (
     !items || !items.length ? (
@@ -29,11 +30,7 @@ const TodayGroup = () => (
 
 export const TodoList = () => {
     const grouped = () => {
-        const midnight = new Date()
-        midnight.setHours(0)
-        midnight.setMinutes(0)
-        midnight.setSeconds(0)
-        midnight.setMilliseconds(0)
+        const midnight = getDateMidnight(new Date())
         const today = window._state.todos
             .filter(t => (t.done && t.completed > midnight) || !t.done)
             .sort((a, b) => a.done - b.done)
@@ -44,7 +41,13 @@ export const TodoList = () => {
             .filter(t => t.completed >= oneDayAgo && t.completed < midnight && t.done)
 
         const older = window._state.todos
-            .filter(t => (t.completed === undefined || t.completed < oneDayAgo) && t.done)
+            .filter(t => {
+                if (t.done) {
+                    console.log(t.completed, t)
+                }
+                return (t.completed === undefined || t.completed < oneDayAgo) && t.done
+            })
+            .sort((a, b) => b.completed - a.completed)
 
         return [today, yesterday, older]
     }

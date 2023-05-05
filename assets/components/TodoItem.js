@@ -1,5 +1,5 @@
 import hot from 'hot'
-import { tasks } from 'commons'
+import { tasks, getDateMidnight } from 'commons'
 
 const overdueHex = (t, maxOverdue = window._state.maxOverdue) => {
     const days = parseInt((new Date() - new Date(t.created)) / (86400 * 1000))
@@ -21,7 +21,7 @@ export const TodoItem = (t) => {
 
     const daysOld = () => {
         const currentDate = t.done ? new Date(t.completed) : new Date();
-        return Math.floor((currentDate - new Date(t.created)) / (86400 * 1000))
+        return Math.floor((getDateMidnight(currentDate) - getDateMidnight(new Date(t.created))) / (86400 * 1000))
     }
 
     return () => hot.div({
