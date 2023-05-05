@@ -35,11 +35,18 @@ export const TodoList = () => {
         midnight.setSeconds(0)
         midnight.setMilliseconds(0)
         const today = window._state.todos
-            .filter(t => t.created >= midnight || !t.done)
+            .filter(t => (t.done && t.completed > midnight) || !t.done)
+            .sort((a, b) => a.done - b.done)
+        
+        const oneDayAgo = new Date(midnight.getTime());
+        oneDayAgo.setDate(midnight.getDate()-1)
         const yesterday = window._state.todos
-            .filter(t => t.created < midnight && t.done)
+            .filter(t => t.completed >= oneDayAgo && t.completed < midnight && t.done)
 
-        return [today, yesterday]
+        const older = window._state.todos
+            .filter(t => (t.completed === undefined || t.completed < oneDayAgo) && t.done)
+
+        return [today, yesterday, older]
     }
 
     return hot.div({
@@ -51,7 +58,9 @@ export const TodoList = () => {
                 TodayGroup,
                 ListOrEmpty(groups[0]),
                 hot.h4('Yesterday'),
-                ListOrEmpty(groups[1])
+                ListOrEmpty(groups[1]),
+                hot.h4('Older'),
+                ListOrEmpty(groups[2])
             ]
         }
     })

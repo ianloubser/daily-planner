@@ -16,7 +16,7 @@ export const TodoItem = (t) => {
     }
 
     const toggle = async () => {
-        await tasks.update({...t, done: !t.done})
+        await tasks.update({...t, done: !t.done, completed: new Date().getTime()})
     }
 
     const daysOld = () => {

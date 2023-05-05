@@ -10,6 +10,11 @@ tasks.subscribe((tasks) => {
     hot.flush('todos')
 })
 
+window.addEventListener('focus', () => {
+    // re-render on focus in order to keep the overdue colour calc accurate
+    hot.flush('todos')
+})
+
 var app = hot.div({
     className: 'app',
     child: [
