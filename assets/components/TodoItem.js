@@ -20,7 +20,8 @@ export const TodoItem = (t) => {
     }
 
     const daysOld = () => {
-        return Math.floor((new Date() - new Date(t.created)) / (86400 * 1000))
+        const currentDate = t.done ? new Date(t.completed) : new Date();
+        return Math.floor((currentDate - new Date(t.created)) / (86400 * 1000))
     }
 
     return () => hot.div({
