@@ -31,16 +31,16 @@ const TodayGroup = () => (
 export const TodoList = () => {
     const grouped = () => {
         const midnight = getDateMidnight(new Date())
-        const today = window._state.todos
+        const today = [...window._state.todos]
             .filter(t => (t.done && t.completed > midnight) || !t.done)
-            .sort((a, b) => a.done - b.done)
+            .sort((a, b) => a.done ? 1 : b.done ? -1 : 0)
         
         const oneDayAgo = new Date(midnight.getTime());
         oneDayAgo.setDate(midnight.getDate()-1)
-        const yesterday = window._state.todos
+        const yesterday = [...window._state.todos]
             .filter(t => t.completed >= oneDayAgo && t.completed < midnight && t.done)
 
-        const older = window._state.todos
+        const older = [...window._state.todos]
             .filter(t => (t.completed === undefined || t.completed < oneDayAgo) && t.done)
             .sort((a, b) => b.completed - a.completed)
 
