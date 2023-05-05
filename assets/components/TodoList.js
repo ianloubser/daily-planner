@@ -41,12 +41,7 @@ export const TodoList = () => {
             .filter(t => t.completed >= oneDayAgo && t.completed < midnight && t.done)
 
         const older = window._state.todos
-            .filter(t => {
-                if (t.done) {
-                    console.log(t.completed, t)
-                }
-                return (t.completed === undefined || t.completed < oneDayAgo) && t.done
-            })
+            .filter(t => (t.completed === undefined || t.completed < oneDayAgo) && t.done)
             .sort((a, b) => b.completed - a.completed)
 
         return [today, yesterday, older]
