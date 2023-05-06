@@ -1,5 +1,5 @@
-import hot from 'hot'
-import { tasks } from 'commons'
+import hot from '../hot.js'
+import { tasks } from '../commons/index.js'
 
 export const CreateTodo = () => {
     const todoAdd = async () => {

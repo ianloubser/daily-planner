@@ -1,5 +1,5 @@
-import hot from 'hot'
-import { tasks, getDateMidnight } from 'commons'
+import hot from '../hot.js'
+import { tasks, getDateMidnight } from '../commons/index.js'
 
 const overdueHex = (t, maxOverdue = window._state.maxOverdue) => {
     const days = parseInt((new Date() - new Date(t.created)) / (86400 * 1000))
@@ -26,9 +26,9 @@ export const TodoItem = (t) => {
 
     return () => hot.div({
         className: 'todo-row',
-        style: () => ({
+        style: {
             backgroundColor: t.done ? undefined : `#ff0000${overdueHex(t)}`
-        }),
+        },
         child: [
             hot.input({
                 type: 'checkbox',
@@ -36,13 +36,13 @@ export const TodoItem = (t) => {
                 onclick: toggle
             }),
             hot.span({
-                style: {
-                    fontSize: 20,
-                    marginLeft: 10,
-                    flex: 1,
-                    cursor: 'pointer',
-                    textDecoration: t.done ? 'line-through' : undefined
-                },
+                style: `
+                    font-size: 20px;
+                    margin-left: 50px;
+                    flex: 1;
+                    cursor: pointer;
+                    text-decoration: ${t.done ? 'line-through' : undefined};
+                `,
                 child: t.text,
                 onclick: toggle
             }),

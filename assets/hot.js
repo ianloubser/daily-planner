@@ -1,7 +1,4 @@
-
-
 const debugging = () => `#${Math.floor(Math.random()*16777215).toString(16)}ab`
-
 
 const HotJS = (rootEl, documentRef, debugMode = false) => {
     var _root = rootEl || document
@@ -16,8 +13,15 @@ const HotJS = (rootEl, documentRef, debugMode = false) => {
                 let element = _document.createElement(item.type);
                 mergeDeep(element, item);
                 renderTree(item, element);
-                _root.getElementById(key).replaceWith(element);
+                
+                // if there is no diff, then don't add into DOM - since the assumption is DOM update takes longest instead 
+                // of actually generating new elem in memory
+                const currentNode = _root.getElementById(key);
+                if (!currentNode.isEqualNode(element)) {
+                    currentNode.replaceWith(element);
+                }
             });
+            return null;
         },
     };
 

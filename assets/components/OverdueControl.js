@@ -1,4 +1,4 @@
-import hot from 'hot'
+import hot from '../hot.js'
 
 export const OverdueControl = () => {
     let focussed = false;

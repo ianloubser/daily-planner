@@ -2,18 +2,19 @@
 
 <head>
     <link rel="stylesheet" href="./assets/style.css"></link>
+    <!-- "hot": "./assets/hot.js",
+            "components": "./assets/components/index.js",
+            "commons": "./assets/commons/index.js", -->
     <script type="importmap">
     {
         "imports": {
-            "hot": "./assets/hot.js",
-            "components": "./assets/components/index.js",
-            "commons": "./assets/commons/index.js",
             "firebase/app": "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js",
             "firebase/firestore": "https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js",
             "firebase/auth": "https://www.gstatic.com/firebasejs/9.20.0/firebase-auth.js"
         }
     }
     </script>
+    <!-- <script src="hot.min.js"></script> -->
     <script type="module">
         import { initializeApp } from "firebase/app";
         
@@ -36,6 +37,7 @@
 
 <body>
 </body>
-<script type="module" src="assets/app.js"></script>
+<script type="module" src="app.min.js"></script>
+<!-- <script type="module" src="assets/app.js"></script> -->
 
 </html>

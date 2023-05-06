@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "hrs -p 8080"
+    "start": "hrs -p 8080",
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.1",
+    "rollup": "^3.21.5",
     "simple-hot-reload-server": "^1.2.0"
   }
 }

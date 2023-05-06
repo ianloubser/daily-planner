@@ -1,5 +1,5 @@
-import hot from 'hot'
-import { auth } from 'commons'
+import hot from '../hot.js'
+import { auth } from '../commons/index.js'
 
 auth.subscribe(() => {
     hot.flush('auth-header')

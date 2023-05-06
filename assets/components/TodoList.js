@@ -1,6 +1,6 @@
-import hot from 'hot'
-import { TodoItem, OverdueControl } from 'components'
-import { getDateMidnight } from 'commons'
+import hot from '../hot.js'
+import { TodoItem, OverdueControl } from '../components/index.js'
+import { getDateMidnight } from '../commons/index.js'
 
 const ListOrEmpty = (items) => (
     !items || !items.length ? (
