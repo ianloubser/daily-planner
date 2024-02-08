@@ -18,24 +18,24 @@ export const CreateTodo = () => {
     }
 
     return hot.div({
-        style: {
-            display: 'flex',
-            flex: 1
-        },
+        className: 'create-todo',
         child: [
             hot.input({
                 onkeyup: onKeyUp,
+                id: 'todo-input',
+                placeholder: 'What do you need to do ?'
+            }),
+            hot.div({
                 style: {
                     display: 'flex',
-                    flex: 1,
-                    fontSize: 22,
-                    padding: '10px 15px'
+                    alignItems: 'center'
                 },
-                id: 'todo-input'
-            }),
-            hot.button({
-                onclick: todoAdd,
-                child: 'Save'
+                child: [
+                    hot.button({
+                        onclick: todoAdd,
+                        child: 'Save'
+                    })
+                ]
             })
         ]
     })

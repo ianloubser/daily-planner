@@ -12,6 +12,41 @@ const signIn = async () => {
         console.log("Error", error)
         alert(error.message)
     }
+    // var dialog = hot.dialog({
+    //     open: true,
+    //     child: "Eyyy does this work ?"
+    // })
+    // document.body.appendChild(dialog)
+}
+
+const UserAvatar = () => {
+    return hot.div({
+        style: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        child: [
+            hot.div({
+                style: {
+                    display: 'flex',
+                    flexDirection: 'column'
+                },
+                child: [
+                    hot.span(`${auth.currentUser().email}`),
+                    hot.button({
+                        child: 'logout',
+                        onclick: () => auth.signOut()
+                    })
+                ]
+            }),
+            hot.img({
+                className: "avatar-photo",
+                referrerPolicy: 'no-referrer',
+                src: auth.currentUser().photoURL
+            })
+        ]
+    })
 }
 
 const Auth = () => {
@@ -21,19 +56,7 @@ const Auth = () => {
 
     return hot.div({
         id: 'auth-header',
-        child: () => loggedIn() ? hot.div({
-            style: {
-                display: 'flex',
-                flexDirection: 'column'
-            },
-            child: [
-                hot.span(`${auth.currentUser().email}`),
-                hot.button({
-                    child: 'logout',
-                    onclick: () => auth.signOut()
-                })
-            ]
-        }) : (
+        child: () => loggedIn() ? UserAvatar() : (
             hot.button({
                 child: 'login',
                 onclick: signIn
@@ -42,17 +65,31 @@ const Auth = () => {
     })
 }
 
-export const Header = () => (
-    hot.div({
+const Heading = () => {
+    return hot.div({
         style: {
             display: 'flex',
-            flex: 1,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '10px 0'
+            alignItems: 'center'
         },
         child: [
+            hot.span({
+                style: {
+                    padding: 5,
+                    cursor: 'pointer'
+                },
+                onclick: () => document.querySelector("html").classList.toggle("dark-mode"),
+                child: '🌗'
+            }),
             hot.h2('Day planner'),
+        ]
+    })
+}
+
+export const Header = () => (
+    hot.div({
+        className: 'app-header',
+        child: [
+            Heading,
             Auth
         ]
     })

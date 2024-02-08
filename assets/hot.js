@@ -1,5 +1,24 @@
 const debugging = () => `#${Math.floor(Math.random()*16777215).toString(16)}ab`
 
+
+/**
+ * @typedef {(...ids: string[]) => void} FlushFunc
+ */
+
+/**
+ * HotJS instance which gives you some syntatic sugare & tracks hot elements
+ * @typedef {Object} HotJS
+ * @property {FlushFunc} flush Forces a flush of state and re-render of the elements specified by ID
+ */
+
+
+/**
+ * 
+ * @param {HTMLElement} rootEl 
+ * @param {Document | null} documentRef 
+ * @param {boolean} debugMode 
+ * @returns {HotJS}
+ */
 const HotJS = (rootEl, documentRef, debugMode = false) => {
     var _root = rootEl || document
     var _document = documentRef || document
@@ -94,7 +113,12 @@ const HotJS = (rootEl, documentRef, debugMode = false) => {
     };
 
     const handler = {
-        get: function (target, prop, receiver) {
+        /**
+         * @param {*} target 
+         * @param {keyof HTMLElementTagNameMap} prop 
+         * @returns {HTMLElement}
+         */
+        get: function (target, prop, _receiver) {
             if (target[prop] != null) {
                 return target[prop];
             }
@@ -106,5 +130,4 @@ const HotJS = (rootEl, documentRef, debugMode = false) => {
     return new Proxy(target, handler);
 };
 
-export default HotJS()
-// export default HotJS(undefined, undefined, true)
+export default HotJS(undefined, undefined, false)

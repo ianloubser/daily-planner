@@ -1,8 +1,11 @@
 import hot from './hot.js'
 import { TodoList, CreateTodo, Header } from './components/index.js'
 import { tasks } from './commons/index.js'
+import { Toast } from './components/Toast.js'
 
+window._hot = hot
 window._state.todos = []
+window._state.toastMessage = ""
 window._state.maxOverdue = localStorage.getItem('max_overdue') || 5
 
 tasks.subscribe((tasks) => {
@@ -17,12 +20,25 @@ window.addEventListener('focus', () => {
     hot.flush('todos')
 })
 
-var app = hot.div({
-    className: 'app',
+const Sticky = () => hot.div({
+    style: {
+        position: 'sticky',
+        top: 0,
+        zIndex: 10000,
+        backgroundColor: 'white'
+    },
     child: [
         Header,
         CreateTodo,
-        TodoList
+    ]
+})
+
+var app = hot.div({
+    className: 'app',
+    child: [
+        Sticky,
+        TodoList,
+        Toast
     ]
 })
 
