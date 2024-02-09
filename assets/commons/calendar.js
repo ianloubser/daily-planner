@@ -35,7 +35,7 @@ const fetchBusyTimes = async (token, dayDate) => {
         },
         method: "POST",
         body: JSON.stringify({
-            "timeMin": start.toISOString(),
+            "timeMin": dayDate.toISOString(),
             "timeMax": end.toISOString(),
             "items": [
                 {
@@ -71,10 +71,24 @@ const createEvent = async (token, time, text) => {
     return res
 }
 
+function dateRangeOverlaps(a_start, a_end, b_start, b_end) {
+    if (a_start <= b_start && b_start <= a_end) return true; // b starts in a
+    if (a_start <= b_end && b_end <= a_end) return true; // b ends in a
+    if (b_start < a_start && a_end < b_end) return true; // a in b
+    return false;
+}
+
 const findOpenSlot = (busyTimes) => {
-    const earliestHour = 8;
+    // earliest time the meeting can be
+    const earliestHour = 11;
+    // latest ending/closing
     const latestHour = 18;
+
+    // how long the slot should be
     const minuteWindow = 30;
+
+    // increments between slots
+    const scanIntervalMinutes = 5;
 
     const template = new Date()
     template.setHours(earliestHour)
@@ -85,49 +99,50 @@ const findOpenSlot = (busyTimes) => {
     const maxTime = new Date(template)
     maxTime.setHours(latestHour)
 
-    if (busyTimes.length < 1) {
-        const end = new Date(template)
-        end.setMinutes(end.getMinutes() + minuteWindow)
-        return {
-            start: template.toISOString(),
-            end: end.toISOString(),
+    let start = new Date(template);
+    const now = new Date()
+    if (start < now) {
+        start.setHours(now.getHours())
+        start.setMinutes(Math.ceil(now.getMinutes() / scanIntervalMinutes) * scanIntervalMinutes)
+    }
+
+    let finish = new Date(start)
+    finish.setMinutes(finish.getMinutes() + minuteWindow)
+
+    const slots = []
+    do {
+        slots.push({
+            start: new Date(start),
+            end: new Date(finish)
+        })
+
+        start.setMinutes(start.getMinutes() + scanIntervalMinutes)
+        finish.setMinutes(finish.getMinutes() + scanIntervalMinutes)
+
+        if (finish > maxTime) {
+            start = null;
+            finish = null;
+        }
+    } while (start != null && finish != null);
+
+    let validSlots = []
+    if (busyTimes.length > 0) {
+        for (let s of slots) {
+            let valid = true;
+            for (let b of busyTimes) {
+                const hasOverlap = dateRangeOverlaps(s.start, s.end, new Date(b.start), new Date(b.end))
+                valid = valid && !hasOverlap
+            }
+
+            if (valid) {
+                validSlots.push(s)
+            }
         }
     } else {
-        let slots = [
-            {
-                start: new Date(template),
-                end: new Date(busyTimes[0].start)
-            },
-            {
-                start: new Date(busyTimes[busyTimes.length-1].end),
-                end: maxTime
-            }
-        ]
-        
-        for (let i=1; i<busyTimes.length-1; i++) {
-            const begin = new Date(busyTimes[i-1].end)
-            const end = new Date(busyTimes[i].start)
-    
-            if ((end - begin)/60000 >= minuteWindow) {
-                slots.push({
-                    start: begin,
-                    end: end
-                })
-            }
-        }
-
-        const bigEnoughSlots = slots.filter(s => (s.end - s.start)/60000 >= minuteWindow)
-        if (bigEnoughSlots.length > 0) {
-            const closing = new Date(bigEnoughSlots[0].start)
-            closing.setMinutes(closing.getMinutes() + minuteWindow)
-            return {
-                start: bigEnoughSlots[0].start.toISOString(),
-                end: closing.toISOString()
-            }
-        }
-
-        return 0;
+        validSlots = slots
     }
+
+    return validSlots
 }
 
 export {

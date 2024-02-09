@@ -16,14 +16,14 @@ const syncTodoToCalendar = async (todo) => {
     const token = await checkGoogleAuthToken()
     const busy = await fetchBusyTimes(token, new Date())
     const openSlot = findOpenSlot(busy.calendars.primary.busy)
-    if (!openSlot) {
+    if (openSlot.length < 1) {
         showToast("No open time today :(")
         showToast("", 4000)
         return
 
     }
     showToast("Creating event.")
-    await createEvent(token, openSlot, todo.text)
+    await createEvent(token, openSlot[0], todo.text)
     
     showToast("30min focus time booked!")
     showToast("", 4000)
