@@ -15,7 +15,6 @@ export const auth = {
         const oauthProvider = new GoogleAuthProvider();
         oauthProvider.addScope('https://www.googleapis.com/auth/calendar.readonly');
         oauthProvider.addScope('https://www.googleapis.com/auth/calendar.events');
-        oauthProvider.addScope('https://www.googleapis.com/auth/calendar');
         
         oauthProvider.setCustomParameters({
             login_hint: authContext.currentUser.email
