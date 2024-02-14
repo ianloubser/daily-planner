@@ -25,7 +25,7 @@ const syncTodoToCalendar = async (todo) => {
     showToast("Creating event.")
     await createEvent(token, openSlot[0], todo.text)
     
-    showToast("30min focus time booked!")
+    showToast("25min focus time booked!")
     showToast("", 4000)
 }
 

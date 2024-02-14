@@ -85,7 +85,7 @@ const findOpenSlot = (busyTimes) => {
     const latestHour = 18;
 
     // how long the slot should be
-    const minuteWindow = 30;
+    const minuteWindow = 25;
 
     // increments between slots
     const scanIntervalMinutes = 5;
